@@ -12,12 +12,34 @@ const getGroq = () => {
   }
   groqInstance = new Groq({ apiKey: process.env.GROQ_API_KEY });
   return groqInstance;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+
+if (!GROQ_API_KEY) {
+  console.warn('⚠️  GROQ_API_KEY is not set — Interview Prep AI features will be unavailable.');
+}
+
+let _groq = null;
+
+const getGroqClient = () => {
+  if (_groq) return _groq;
+  if (!GROQ_API_KEY) {
+    const err = new Error(
+      'Interview AI features are unavailable — GROQ_API_KEY is not configured. ' +
+      'Set it in your .env file.'
+    );
+    err.statusCode = 503;
+    throw err;
+  }
+  _groq = new Groq({ apiKey: GROQ_API_KEY });
+  return _groq;
 };
 
 const generateQuestionId = () => `q_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
 const callGroq = async (prompt) => {
   const completion = await getGroq().chat.completions.create({
+  const client = getGroqClient();
+  const completion = await client.chat.completions.create({
     messages: [{ role: 'user', content: prompt }],
     model: 'llama-3.3-70b-versatile',
     temperature: 0.7,
@@ -93,7 +115,11 @@ Rules:
   }
 
   const text = await callGroq(prompt);
-  const cleanedText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  let cleanedText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    cleanedText = jsonMatch[0];
+  }
 
   let parsed;
   try {
@@ -167,7 +193,11 @@ CRITICAL RULES:
 7. Score fairly: 90+ = exceptional, 70-89 = good, 50-69 = needs work, <50 = significant gaps`;
 
   const text = await callGroq(prompt);
-  const cleanedText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  let cleanedText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    cleanedText = jsonMatch[0];
+  }
 
   try {
     const parsed = JSON.parse(cleanedText);
@@ -222,7 +252,11 @@ Return ONLY valid JSON with this structure:
 }`;
 
   const text = await callGroq(prompt);
-  const cleanedText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  let cleanedText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    cleanedText = jsonMatch[0];
+  }
 
   let feedback;
   try {
