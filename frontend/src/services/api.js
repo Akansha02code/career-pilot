@@ -216,6 +216,28 @@ export const resumeApi = {
     return handleResponse(response)
   },
 
+  // Preview GitHub profile before importing
+  async previewGitHub(username) {
+    const headers = await getAuthHeaders()
+    const response = await fetch(`${API_BASE}/resumes/import/github/preview`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ username })
+    })
+    return handleResponse(response)
+  },
+
+  // Import GitHub profile as a resume
+  async importGitHub(username, profile = null) {
+    const headers = await getAuthHeaders()
+    const response = await fetch(`${API_BASE}/resumes/import/github`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ username, profile })
+    })
+    return handleResponse(response)
+  },
+
   // Download resume as PDF
   async downloadPdf(resumeId, version = 'enhanced') {
     const user = auth.currentUser
@@ -235,6 +257,17 @@ export const resumeApi = {
     }
 
     return response.blob()
+  },
+
+  // Convert raw text to resume
+  async createFromText(text, jobRole) {
+    const headers = await getAuthHeaders()
+    const response = await fetch(`${API_BASE}/resumes/from-text`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ text, jobRole })
+    })
+    return handleResponse(response)
   }
 }
 

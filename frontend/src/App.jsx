@@ -20,6 +20,8 @@ import Enhance from './pages/Enhance';
 import ResumeView from './pages/ResumeView';
 import JobSearch from './pages/JobSearch';
 import JobAlerts from './pages/JobAlerts';
+import ResumeBuilder from './pages/ResumeBuilder';
+import TextToResume from './pages/TextToResume';
 
 
 import JobTracker from './pages/JobTracker';
@@ -162,6 +164,8 @@ function AppRoutes() {
         {/* Core Protected Routes */}
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/upload" element={<ProtectedRoute><Upload /></ProtectedRoute>} />
+        <Route path="/resume-builder" element={<ProtectedRoute><ResumeBuilder /></ProtectedRoute>} />
+        <Route path="/text-to-resume" element={<ProtectedRoute><TextToResume /></ProtectedRoute>} />
         <Route path="/enhance/:resumeId" element={<ProtectedRoute><Enhance /></ProtectedRoute>} />
         <Route path="/resume/:resumeId" element={<ProtectedRoute><ResumeView /></ProtectedRoute>} />
         <Route path="/jobs" element={<ProtectedRoute><JobSearch /></ProtectedRoute>} />
