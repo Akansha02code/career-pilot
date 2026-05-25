@@ -343,7 +343,11 @@ We welcome contributions! Please see our [CONTRIBUTION.md](./CONTRIBUTION.md) fo
 
 ## 💙 Thank You Contributors
 
-Thank you to all the amazing contributors who have helped improve this project.
+Thank you to all the amazing contributors who have helped improve this project. <br></br>
+
+<a href="https://github.com/anurag3407/career-pilot/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=anurag3407/career-pilot" />
+</a>
 
 Your efforts, pull requests, ideas, and support make this project better every day and help grow an incredible open-source community 🚀
 
@@ -354,6 +358,7 @@ Your efforts, pull requests, ideas, and support make this project better every d
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 <br />
+
 
 <div align="center">
   <a href="https://github.com/anurag3407/career-pilot/graphs/contributors">
