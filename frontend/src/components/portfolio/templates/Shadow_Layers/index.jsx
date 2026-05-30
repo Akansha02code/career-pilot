@@ -669,7 +669,8 @@ const Contact = () => {
     const name = e.target.elements["name"].value;
     const email = e.target.elements["email"].value;
     const message = e.target.elements["message"].value;
-    window.location.href = `mailto:${socials.email}?subject=${encodeURIComponent(`Message from ${name}`)}&body=${encodeURIComponent(message)}%0A%0AFrom: ${encodeURIComponent(email)}`;
+    const body = `${message}\n\nFrom: ${email}`;
+    window.location.href = `mailto:${socials.email}?subject=${encodeURIComponent(`Message from ${name}`)}&body=${encodeURIComponent(body)}`;
   };
 
   const inputStyle = {
